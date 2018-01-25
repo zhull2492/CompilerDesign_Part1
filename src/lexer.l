@@ -6,10 +6,9 @@
 #define STR_TBLE_COLS 4096
 
 char stringTable[STR_TBLE_ROWS][STR_TBLE_COLS];
-void upper2lower (char*);
 int addStrTable(char*);
 void printStrTable();
-void ReportError(int, int, int, char*);
+void ReportError(char*, int, int);
 
 int yyline = 1, yycolumn = 1;
 int yylval;
@@ -49,7 +48,7 @@ digit [0-9]
 	// End of File Marker or End of String -- NO COMMENT END
 	if (next_c == EOF || next_c == '\0') {
 		// Report Unmatched Comment
-		ReportError(ERR_COMMENT, start_line, yycolumn, NULL);
+		ReportError("Unmatched comment", start_line, yycolumn);
 		// Reset yycolumn
 		yycolumn = 1;
 	}
@@ -62,7 +61,7 @@ digit [0-9]
 	// Consumed two (2) characters
 	yycolumn += 2;
 	// Report Unmatched Comment
-	ReportError(ERR_COMMENT, yyline, yycolumn, NULL);
+	ReportError("Unmatched comment", yyline, yycolumn);
 	// Return value for consistency
 	return OTHERS;
 }
@@ -70,6 +69,7 @@ digit [0-9]
 declarations { /* RULE FOR DECLARATIONS KEYWORD */
 	// update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tDECLARATIONSnum\n", yyline, yycolumn);
 	// Return token value
 	return DECLARATIONnum;
 }
@@ -77,6 +77,7 @@ declarations { /* RULE FOR DECLARATIONS KEYWORD */
 enddeclarations { /* RULE FOR ENDDECLARATIONS KEYWORD */
 	// update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tENDDECLARATIONSnum\n", yyline, yycolumn);
 	// Return token value
 	return ENDDECLARATIONSnum;
 }
@@ -84,6 +85,7 @@ enddeclarations { /* RULE FOR ENDDECLARATIONS KEYWORD */
 method { /* RULE FOR METHOD KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tMETHODnum\n", yyline, yycolumn);
 	// Return token value
 	return METHODnum;
 }
@@ -91,6 +93,7 @@ method { /* RULE FOR METHOD KEYWORD */
 program { /* RULE FOR PROGRAM KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tPROGRAMnum\n", yyline, yycolumn);
 	// Return token value
 	return PROGRAMnum;
 }
@@ -98,6 +101,7 @@ program { /* RULE FOR PROGRAM KEYWORD */
 val { /* RULE FOR VAL KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tVALnum\n", yyline, yycolumn);
 	// Return token value
 	return VALnum;
 }
@@ -105,6 +109,7 @@ val { /* RULE FOR VAL KEYWORD */
 while { /* RULE FOR WHILE KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tWHILEnum\n", yyline, yycolumn);
 	// Return token value
 	return WHILEnum;
 }
@@ -112,6 +117,7 @@ while { /* RULE FOR WHILE KEYWORD */
 class { /* RULE FOR CLASS KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tCLASSnum\n", yyline, yycolumn);
 	// Return token value
 	return CLASSnum;
 }
@@ -119,6 +125,7 @@ class { /* RULE FOR CLASS KEYWORD */
 else { /* RULE FOR ELSE KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tELSEnum\n", yyline, yycolumn);
 	// Return token value
 	return ELSEnum;
 }
@@ -126,6 +133,7 @@ else { /* RULE FOR ELSE KEYWORD */
 if { /* RULE FOR IF KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tIFnum\n", yyline, yycolumn);
 	// Return token value
 	return IFnum;
 }
@@ -133,6 +141,7 @@ if { /* RULE FOR IF KEYWORD */
 return { /* RULE FOR RETURN KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tRETURNnum\n", yyline, yycolumn);
 	// Return token value
 	return RETURNnum;
 }
@@ -140,6 +149,7 @@ return { /* RULE FOR RETURN KEYWORD */
 void { /* RULE FOR VOID KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tVOIDnum\n", yyline, yycolumn);
 	// Return token value
 	return VOIDnum;
 }
@@ -147,78 +157,47 @@ void { /* RULE FOR VOID KEYWORD */
 int { /* RULE FOR INT KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tINTnum\n", yyline, yycolumn);
 	// Return token value
 	return INTnum;
 }
 
-";" { /* RULE FOR SEMICOLON */
-	// Increment column by 1
-	++yycolumn;
+[a-zA-Z][a-zA-Z0-9]* { /* RULE FOR IDENTIFIER */
+	char * intext;		// Pointer to character string
+
+	// Allocate space for identifier
+	intext = (char *) calloc(strlen(yytext) + 1, sizeof(char));
+
+	// Copy identifier
+	strcpy(intext, yytext);
+
+	// Update column by length of identifier
+	yycolumn += strlen(intext);
+	// Add identifier to string table
+	yylval = addStrTable(intext);
+
+	printf("%d\t%d\tIDnum\t\t    %d\n", yyline, yycolumn, yylval);
+
+	// Deallocate
+	free(intext);
+
 	// Return token value
-	return SEMInum;
+	return IDnum;
 }
 
-"{" { /* RULE FOR LEFT BRACE */
-	// Increment column by 1
-	++yycolumn;
-	// Return token value
-	return LBRACEnum;
-}
-
-"}" { /* RULE FOR RIGHT BRACE */
-	// Increment column by 1
-	++yycolumn;
-	// Return token value
-	return RBRACEnum;
-}
-
-"(" { /* RULE FOR LEFT PARENTHESIS */
-	// Increment column by 1
-	++yycolumn;
-	// Return token value
-	return LPARENnum;
-}
-
-")" { /* RULE FOR RIGHT PARENTHESIS */
-	// Increment column by 1
-	++yycolumn;
-	// Return token value
-	return RPARENnum;
-}
-
-"." { /* RULE FOR DOT */
-	// Increment column by 1
-	++yycolumn;
-	// Return token value
-	return DOTnum;
-}
-
-"=" { /* RULE FOR EQUAL SIGN */
-	// Increment column by 1
-	yycolumn++;
-	// Return token value
-	return EQUALnum;
-}
-
-":=" { /* RULE FOR ASSIGN */
-	// Increment column by 2
-	yycolumn = yycolumn + 2;
-	// Return token value
-	return ASSGNnum;
-}
-
-"<" { /* RULE FOR LESS THAN */
-	// Increment column by 1
-	++yycolumn;
-	// Return token value
-	return LTnum;
-}
-
-"+" { /* RULE FOR PLUS */
-	// Increment column by 1
-	++yycolumn;
-	// Return token value
-	return PLUSnum;
+[0-9]+[a-zA-Z]+[a-zA-Z0-9]* { /* RULE FOR BAD IDENTIFIER */
+	char * str_buff;
+	int str_len = strlen(yytext) + 2 + 1 + strlen("Malformed identifier");
+	str_buff = (char *) calloc(str_len + 1, sizeof(char));
+	strcpy(str_buff, "Malformed identifier '");
+	strcat(str_buff, yytext);
+	strcat(str_buff, "'");
+	// Raise Malformed ID Error
+	ReportError(str_buff, yyline, yycolumn);
+	// Update column for length of bad identifier
+	yycolumn += strlen(yytext);
+	// return for consistency
+	return OTHERS;
 }
 
 {digit}+ { /* RULE FOR INTEGER CONSTANT */
@@ -226,6 +205,7 @@ int { /* RULE FOR INT KEYWORD */
 	yylval = atoi(yytext);
 	// Update column with number of digits
 	yycolumn += strlen(yytext);
+	printf("%d\t%d\tICONSTnum\t    %d\n", yyline, yycolumn, yylval);
 	// Return token value
 	return ICONSTnum;
 }
@@ -283,7 +263,7 @@ int { /* RULE FOR INT KEYWORD */
 	// String never ends...
 	if (curr_c == '\n') {
 		// Raise Unending String Error
-		ReportError(ERR_STRING, yyline, start_string, NULL);
+		ReportError("Unmatched string constant", yyline, start_string);
 		// Place \n back on yytext
 		unput(curr_c);
 		// return for consistency
@@ -293,42 +273,202 @@ int { /* RULE FOR INT KEYWORD */
 	else {
 		// Add to string table
 		yylval = addStrTable(str_buff);
+		printf("%d\t%d\tSCONSTnum\t    %d\n", yyline, yycolumn, yylval);
 		// return token value
 		return SCONSTnum;
 	}
 }
 	
-[a-zA-Z][a-zA-Z0-9]* { /* RULE FOR IDENTIFIER */
-	char * intext;		// Pointer to character string
-
-	// Allocate space for identifier
-	intext = (char *) calloc(strlen(yytext) + 1, sizeof(char));
-
-	// Copy identifier
-	strcpy(intext, yytext);
-
-	// Convert to lowercase
-	upper2lower(intext);
-
-	// Update column by length of identifier
-	yycolumn += strlen(intext);
-	// Add identifier to string table
-	yylval = addStrTable(intext);
-
-	// Deallocate
-	free(intext);
-
+":=" { /* RULE FOR ASSIGN */
+	// Increment column by 2
+	yycolumn = yycolumn + 2;
+	printf("%d\t%d\tASSGNnum\n", yyline, yycolumn);
 	// Return token value
-	return IDnum;
+	return ASSGNnum;
 }
 
-[0-9]+[a-zA-Z]+[a-zA-Z0-9]* { /* RULE FOR BAD IDENTIFIER */
-	// Raise Malformed ID Error
-	ReportError(ERR_ID, yyline, yycolumn, yytext);
-	// Update column for length of bad identifier
-	yycolumn += strlen(yytext);
-	// return for consistency
-	return OTHERS;
+"==" { /* RULE FOR EQUAL (COMPARISON) */
+	// Increment column by 2
+	yycolumn = yycolumn + 2;
+	printf("%d\t%d\tEQnum\n", yyline, yycolumn);
+	// Return token value
+	return EQnum;
+}
+
+"!=" { /* RULE FOR NOT EQUAL */
+	// Increment column by 2
+	yycolumn = yycolumn + 2;
+	printf("%d\t%d\tNEnum\n", yyline, yycolumn);
+	// Return token value
+	return NEnum;
+}
+
+"&&" { /* RULE FOR AND */
+	// Increment column by 2
+	yycolumn = yycolumn + 2;
+	printf("%d\t%d\tANDnum\n", yyline, yycolumn);
+	// Return token value
+	return ANDnum;
+}
+
+"||" { /* RULE FOR OR */
+	// Increment column by 2
+	yycolumn = yycolumn + 2;
+	printf("%d\t%d\tORnum\n", yyline, yycolumn);
+	// Return token value
+	return ORnum;
+}
+
+">=" { /* RULE FOR GREATER THAN OR EQUAL */
+	// Increment column by 2
+	yycolumn = yycolumn + 2;
+	printf("%d\t%d\tGEnum\n", yyline, yycolumn);
+	// Return token value
+	return GEnum;
+}
+
+"<=" { /* RULE FOR LESS THAN OR EQUAL */
+	// Increment column by 2
+	yycolumn = yycolumn + 2;
+	printf("%d\t%d\tLEnum\n", yyline, yycolumn);
+	// Return token value
+	return LEnum;
+}
+
+"!" { /* RULE FOR NOT */
+	// Increment column by 1
+	yycolumn++;
+	printf("%d\t%d\tNOTnum\n", yyline, yycolumn);
+	// Return token value
+	return NOTnum;
+}
+
+"(" { /* RULE FOR LEFT PARENTHESIS */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tLPARENnum\n", yyline, yycolumn);
+	// Return token value
+	return LPARENnum;
+}
+
+")" { /* RULE FOR RIGHT PARENTHESIS */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tRPARENnum\n", yyline, yycolumn);
+	// Return token value
+	return RPARENnum;
+}
+
+"*" { /* RULE FOR TIMES */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tTIMESnum\n", yyline, yycolumn);
+	// Return token value
+	return TIMESnum;
+}
+
+"+" { /* RULE FOR PLUS */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tPLUSnum\n", yyline, yycolumn);
+	// Return token value
+	return PLUSnum;
+}
+
+"," { /* RULE FOR COMMA */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tCOMMAnum\n", yyline, yycolumn);
+	// Return token value
+	return COMMAnum;
+}
+
+"-" { /* RULE FOR MINUS */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tMINUSnum\n", yyline, yycolumn);
+	// Return token value
+	return MINUSnum;
+}
+
+"." { /* RULE FOR DOT */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tDOTnum\n", yyline, yycolumn);
+	// Return token value
+	return DOTnum;
+}
+
+"/" { /* RULE FOR DIVIDE */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tDIVIDEnum\n", yyline, yycolumn);
+	// Return token value
+	return DIVIDEnum;
+}
+
+";" { /* RULE FOR SEMICOLON */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tSEMInum\n", yyline, yycolumn);
+	// Return token value
+	return SEMInum;
+}
+
+"<" { /* RULE FOR LESS THAN */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tLTnum\n", yyline, yycolumn);
+	// Return token value
+	return LTnum;
+}
+
+"=" { /* RULE FOR EQUAL SIGN */
+	// Increment column by 1
+	yycolumn++;
+	printf("%d\t%d\tEQUALnum\n", yyline, yycolumn);
+	// Return token value
+	return EQUALnum;
+}
+
+">" { /* RULE FOR GREATER THAN */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tGTnum\n", yyline, yycolumn);
+	// Return token value
+	return GTnum;
+}
+
+"[" { /* RULE FOR LEFT BRACKET */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tLBRACnum\n", yyline, yycolumn);
+	// Return token value
+	return LBRACnum;
+}
+
+"]" { /* RULE FOR RIGHT BRACKET */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tRBRACnum\n", yyline, yycolumn);
+	// Return token value
+	return RBRACnum;
+}
+
+"{" { /* RULE FOR LEFT BRACE */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tLBRACEnum\n", yyline, yycolumn);
+	// Return token value
+	return LBRACEnum;
+}
+
+"}" { /* RULE FOR RIGHT BRACE */
+	// Increment column by 1
+	++yycolumn;
+	printf("%d\t%d\tRBRACEnum\n", yyline, yycolumn);
+	// Return token value
+	return RBRACEnum;
 }
 
 " " { /* RULE FOR SPACE */
@@ -353,34 +493,28 @@ int { /* RULE FOR INT KEYWORD */
 	return OTHERS;
 }
 
-<<EOF>> { /* RULE FOR END OF FILE */
-	// Return token value
-	return EOFnum;
-}
-
 . { /* RULE FOR ANY UNMATCHED SYMBOL */
+	char * str_buff;
+	int str_len = strlen(yytext) + 2 + 1 + strlen("Undefined symbol");
+	str_buff = (char *) calloc(str_len + 1, sizeof(char));
+	strcpy(str_buff, "Undefined symbol '");
+	strcat(str_buff, yytext);
+	strcat(str_buff, "'");
 	// Raise Undefined Symbol Error
-	ReportError(ERR_SYMBOL, yyline, yycolumn, yytext);
+	ReportError(str_buff, yyline, yycolumn);
 	// Update column for length of symbol
 	yycolumn += strlen(yytext);
 	// return for consistency
 	return OTHERS;
 }
 
-%%
-
-/* CONVERT STRING TO ALL LOWERCASE */
-void upper2lower (char * instring) {
-
-	int i;		// Counting Variable
-
-	// For all characters in string...
-	for (i = 0; i < strlen(instring); ++i) {
-		if (instring[i] >= 'A' && instring[i] <= 'Z') instring[i] = instring[i] + 'a' - 'A';
-	}
-
-	return;
+<<EOF>> { /* RULE FOR END OF FILE */
+	printf("%d\t%d\tEOFnum\n\n", yyline, yycolumn);
+	// Return token value
+	return EOFnum;
 }
+
+%%
 
 /* ADD STRING TO STRING TABLE */
 int addStrTable(char * intext){
@@ -440,25 +574,9 @@ void printStrTable () {
 }
 
 /* ERROR REPORTING */
-void ReportError(int err_num, int e_line, int e_column, char * in_string) {
+void ReportError(char * in_string, int e_line, int e_column) {
 
-	// Get Error
-	switch (err_num) {
-		case ERR_COMMENT:
-			printf("Error: Unmatched comment, at line %d column %d\n", e_line, e_column);
-			break;
-		case ERR_ID:
-			printf("Error: Malformed identifier '%s', at line %d column %d\n", in_string, e_line, e_column);
-			break;
-		case ERR_STRING:
-			printf("Error: Unmatched string constant, at line %d column %d\n", e_line, e_column);
-			break;
-		case ERR_SYMBOL:
-			printf("Error: Undefined symbol '%s', at line %d column %d\n", in_string, e_line, e_column);
-			break;
-		default:
-			break;
-	}
+	printf("Error: %s, at line %d column %d\n", in_string, e_line, e_column);
 
 	return;
 }

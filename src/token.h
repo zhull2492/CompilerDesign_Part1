@@ -5,17 +5,25 @@
 // ////////////////////////////////////////////////////
 
 // SINGLE CHARACTERS
+#define NOTnum '!'
 #define LPARENnum '('
 #define RPARENnum ')'
+#define TIMESnum '*'
 #define PLUSnum '+'
+#define COMMAnum ','
+#define MINUSnum '-'
 #define DOTnum '.'
+#define DIVIDEnum '/'
 #define SEMInum ';'
 #define LTnum '<'
 #define EQUALnum '='
+#define GTnum '>'
+#define LBRACnum '['
+#define RBRACnum ']'
 #define LBRACEnum '{'
 #define RBRACEnum '}'
 
-// WORDS
+// KEYWORDS
 #define DECLARATIONnum 257
 #define ENDDECLARATIONSnum 258
 #define METHODnum 259
@@ -28,17 +36,23 @@
 #define RETURNnum 266
 #define VOIDnum 267
 #define INTnum 268
-#define ASSGNnum 269 
+
+// CONSTANTS & STRINGS
+#define IDnum 269
 #define ICONSTnum 270
 #define SCONSTnum 271
-#define IDnum 272
+
+// OPERATORS
+#define ASSGNnum 272
+#define EQnum 273
+#define NEnum 274
+#define ANDnum 275
+#define ORnum 276
+#define GEnum 277
+#define LEnum 278
+
+// END OF FILE
 #define EOFnum 0
 
 // OTHERS
 #define OTHERS 300
-
-// ERRORS
-#define ERR_COMMENT 1
-#define ERR_ID      2
-#define ERR_STRING  3
-#define ERR_SYMBOL  4
