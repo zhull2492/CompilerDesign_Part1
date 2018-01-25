@@ -196,6 +196,8 @@ int { /* RULE FOR INT KEYWORD */
 	ReportError(str_buff, yyline, yycolumn);
 	// Update column for length of bad identifier
 	yycolumn += strlen(yytext);
+	// Free Memory
+	free(str_buff);
 	// return for consistency
 	return OTHERS;
 }
@@ -504,6 +506,8 @@ int { /* RULE FOR INT KEYWORD */
 	ReportError(str_buff, yyline, yycolumn);
 	// Update column for length of symbol
 	yycolumn += strlen(yytext);
+	// Free Memory
+	free(str_buff);
 	// return for consistency
 	return OTHERS;
 }
