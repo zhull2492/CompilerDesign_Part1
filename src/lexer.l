@@ -69,7 +69,7 @@ digit [0-9]
 declarations { /* RULE FOR DECLARATIONS KEYWORD */
 	// update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tDECLARATIONSnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tDECLARATIONSnum\n", yyline, yycolumn);
 	// Return token value
 	return DECLARATIONnum;
 }
@@ -77,7 +77,7 @@ declarations { /* RULE FOR DECLARATIONS KEYWORD */
 enddeclarations { /* RULE FOR ENDDECLARATIONS KEYWORD */
 	// update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tENDDECLARATIONSnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tENDDECLARATIONSnum\n", yyline, yycolumn);
 	// Return token value
 	return ENDDECLARATIONSnum;
 }
@@ -85,7 +85,7 @@ enddeclarations { /* RULE FOR ENDDECLARATIONS KEYWORD */
 method { /* RULE FOR METHOD KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tMETHODnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tMETHODnum\n", yyline, yycolumn);
 	// Return token value
 	return METHODnum;
 }
@@ -93,7 +93,7 @@ method { /* RULE FOR METHOD KEYWORD */
 program { /* RULE FOR PROGRAM KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tPROGRAMnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tPROGRAMnum\n", yyline, yycolumn);
 	// Return token value
 	return PROGRAMnum;
 }
@@ -101,7 +101,7 @@ program { /* RULE FOR PROGRAM KEYWORD */
 val { /* RULE FOR VAL KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tVALnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tVALnum\n", yyline, yycolumn);
 	// Return token value
 	return VALnum;
 }
@@ -109,7 +109,7 @@ val { /* RULE FOR VAL KEYWORD */
 while { /* RULE FOR WHILE KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tWHILEnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tWHILEnum\n", yyline, yycolumn);
 	// Return token value
 	return WHILEnum;
 }
@@ -117,7 +117,7 @@ while { /* RULE FOR WHILE KEYWORD */
 class { /* RULE FOR CLASS KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tCLASSnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tCLASSnum\n", yyline, yycolumn);
 	// Return token value
 	return CLASSnum;
 }
@@ -125,7 +125,7 @@ class { /* RULE FOR CLASS KEYWORD */
 else { /* RULE FOR ELSE KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tELSEnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tELSEnum\n", yyline, yycolumn);
 	// Return token value
 	return ELSEnum;
 }
@@ -133,7 +133,7 @@ else { /* RULE FOR ELSE KEYWORD */
 if { /* RULE FOR IF KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tIFnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tIFnum\n", yyline, yycolumn);
 	// Return token value
 	return IFnum;
 }
@@ -141,7 +141,7 @@ if { /* RULE FOR IF KEYWORD */
 return { /* RULE FOR RETURN KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tRETURNnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tRETURNnum\n", yyline, yycolumn);
 	// Return token value
 	return RETURNnum;
 }
@@ -149,7 +149,7 @@ return { /* RULE FOR RETURN KEYWORD */
 void { /* RULE FOR VOID KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tVOIDnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tVOIDnum\n", yyline, yycolumn);
 	// Return token value
 	return VOIDnum;
 }
@@ -157,7 +157,7 @@ void { /* RULE FOR VOID KEYWORD */
 int { /* RULE FOR INT KEYWORD */
 	// Update column by length of keyword
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tINTnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tINTnum\n", yyline, yycolumn);
 	// Return token value
 	return INTnum;
 }
@@ -176,7 +176,7 @@ int { /* RULE FOR INT KEYWORD */
 	// Add identifier to string table
 	yylval = addStrTable(intext);
 
-	printf("%d\t%d\tIDnum\t\t    %d\n", yyline, yycolumn, yylval);
+//	printf("%d\t%d\tIDnum\t\t    %d\n", yyline, yycolumn, yylval);
 
 	// Deallocate
 	free(intext);
@@ -207,7 +207,7 @@ int { /* RULE FOR INT KEYWORD */
 	yylval = atoi(yytext);
 	// Update column with number of digits
 	yycolumn += strlen(yytext);
-	printf("%d\t%d\tICONSTnum\t    %d\n", yyline, yycolumn, yylval);
+//	printf("%d\t%d\tICONSTnum\t    %d\n", yyline, yycolumn, yylval);
 	// Return token value
 	return ICONSTnum;
 }
@@ -275,7 +275,7 @@ int { /* RULE FOR INT KEYWORD */
 	else {
 		// Add to string table
 		yylval = addStrTable(str_buff);
-		printf("%d\t%d\tSCONSTnum\t    %d\n", yyline, yycolumn, yylval);
+//		printf("%d\t%d\tSCONSTnum\t    %d\n", yyline, yycolumn, yylval);
 		// return token value
 		return SCONSTnum;
 	}
@@ -284,7 +284,7 @@ int { /* RULE FOR INT KEYWORD */
 ":=" { /* RULE FOR ASSIGN */
 	// Increment column by 2
 	yycolumn = yycolumn + 2;
-	printf("%d\t%d\tASSGNnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tASSGNnum\n", yyline, yycolumn);
 	// Return token value
 	return ASSGNnum;
 }
@@ -292,7 +292,7 @@ int { /* RULE FOR INT KEYWORD */
 "==" { /* RULE FOR EQUAL (COMPARISON) */
 	// Increment column by 2
 	yycolumn = yycolumn + 2;
-	printf("%d\t%d\tEQnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tEQnum\n", yyline, yycolumn);
 	// Return token value
 	return EQnum;
 }
@@ -300,7 +300,7 @@ int { /* RULE FOR INT KEYWORD */
 "!=" { /* RULE FOR NOT EQUAL */
 	// Increment column by 2
 	yycolumn = yycolumn + 2;
-	printf("%d\t%d\tNEnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tNEnum\n", yyline, yycolumn);
 	// Return token value
 	return NEnum;
 }
@@ -308,7 +308,7 @@ int { /* RULE FOR INT KEYWORD */
 "&&" { /* RULE FOR AND */
 	// Increment column by 2
 	yycolumn = yycolumn + 2;
-	printf("%d\t%d\tANDnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tANDnum\n", yyline, yycolumn);
 	// Return token value
 	return ANDnum;
 }
@@ -316,7 +316,7 @@ int { /* RULE FOR INT KEYWORD */
 "||" { /* RULE FOR OR */
 	// Increment column by 2
 	yycolumn = yycolumn + 2;
-	printf("%d\t%d\tORnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tORnum\n", yyline, yycolumn);
 	// Return token value
 	return ORnum;
 }
@@ -324,7 +324,7 @@ int { /* RULE FOR INT KEYWORD */
 ">=" { /* RULE FOR GREATER THAN OR EQUAL */
 	// Increment column by 2
 	yycolumn = yycolumn + 2;
-	printf("%d\t%d\tGEnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tGEnum\n", yyline, yycolumn);
 	// Return token value
 	return GEnum;
 }
@@ -332,7 +332,7 @@ int { /* RULE FOR INT KEYWORD */
 "<=" { /* RULE FOR LESS THAN OR EQUAL */
 	// Increment column by 2
 	yycolumn = yycolumn + 2;
-	printf("%d\t%d\tLEnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tLEnum\n", yyline, yycolumn);
 	// Return token value
 	return LEnum;
 }
@@ -340,7 +340,7 @@ int { /* RULE FOR INT KEYWORD */
 "!" { /* RULE FOR NOT */
 	// Increment column by 1
 	yycolumn++;
-	printf("%d\t%d\tNOTnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tNOTnum\n", yyline, yycolumn);
 	// Return token value
 	return NOTnum;
 }
@@ -348,7 +348,7 @@ int { /* RULE FOR INT KEYWORD */
 "(" { /* RULE FOR LEFT PARENTHESIS */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tLPARENnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tLPARENnum\n", yyline, yycolumn);
 	// Return token value
 	return LPARENnum;
 }
@@ -356,7 +356,7 @@ int { /* RULE FOR INT KEYWORD */
 ")" { /* RULE FOR RIGHT PARENTHESIS */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tRPARENnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tRPARENnum\n", yyline, yycolumn);
 	// Return token value
 	return RPARENnum;
 }
@@ -364,7 +364,7 @@ int { /* RULE FOR INT KEYWORD */
 "*" { /* RULE FOR TIMES */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tTIMESnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tTIMESnum\n", yyline, yycolumn);
 	// Return token value
 	return TIMESnum;
 }
@@ -372,7 +372,7 @@ int { /* RULE FOR INT KEYWORD */
 "+" { /* RULE FOR PLUS */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tPLUSnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tPLUSnum\n", yyline, yycolumn);
 	// Return token value
 	return PLUSnum;
 }
@@ -380,7 +380,7 @@ int { /* RULE FOR INT KEYWORD */
 "," { /* RULE FOR COMMA */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tCOMMAnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tCOMMAnum\n", yyline, yycolumn);
 	// Return token value
 	return COMMAnum;
 }
@@ -388,7 +388,7 @@ int { /* RULE FOR INT KEYWORD */
 "-" { /* RULE FOR MINUS */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tMINUSnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tMINUSnum\n", yyline, yycolumn);
 	// Return token value
 	return MINUSnum;
 }
@@ -396,7 +396,7 @@ int { /* RULE FOR INT KEYWORD */
 "." { /* RULE FOR DOT */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tDOTnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tDOTnum\n", yyline, yycolumn);
 	// Return token value
 	return DOTnum;
 }
@@ -404,7 +404,7 @@ int { /* RULE FOR INT KEYWORD */
 "/" { /* RULE FOR DIVIDE */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tDIVIDEnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tDIVIDEnum\n", yyline, yycolumn);
 	// Return token value
 	return DIVIDEnum;
 }
@@ -412,7 +412,7 @@ int { /* RULE FOR INT KEYWORD */
 ";" { /* RULE FOR SEMICOLON */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tSEMInum\n", yyline, yycolumn);
+//	printf("%d\t%d\tSEMInum\n", yyline, yycolumn);
 	// Return token value
 	return SEMInum;
 }
@@ -420,7 +420,7 @@ int { /* RULE FOR INT KEYWORD */
 "<" { /* RULE FOR LESS THAN */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tLTnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tLTnum\n", yyline, yycolumn);
 	// Return token value
 	return LTnum;
 }
@@ -428,7 +428,7 @@ int { /* RULE FOR INT KEYWORD */
 "=" { /* RULE FOR EQUAL SIGN */
 	// Increment column by 1
 	yycolumn++;
-	printf("%d\t%d\tEQUALnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tEQUALnum\n", yyline, yycolumn);
 	// Return token value
 	return EQUALnum;
 }
@@ -436,7 +436,7 @@ int { /* RULE FOR INT KEYWORD */
 ">" { /* RULE FOR GREATER THAN */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tGTnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tGTnum\n", yyline, yycolumn);
 	// Return token value
 	return GTnum;
 }
@@ -444,7 +444,7 @@ int { /* RULE FOR INT KEYWORD */
 "[" { /* RULE FOR LEFT BRACKET */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tLBRACnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tLBRACnum\n", yyline, yycolumn);
 	// Return token value
 	return LBRACnum;
 }
@@ -452,7 +452,7 @@ int { /* RULE FOR INT KEYWORD */
 "]" { /* RULE FOR RIGHT BRACKET */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tRBRACnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tRBRACnum\n", yyline, yycolumn);
 	// Return token value
 	return RBRACnum;
 }
@@ -460,7 +460,7 @@ int { /* RULE FOR INT KEYWORD */
 "{" { /* RULE FOR LEFT BRACE */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tLBRACEnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tLBRACEnum\n", yyline, yycolumn);
 	// Return token value
 	return LBRACEnum;
 }
@@ -468,7 +468,7 @@ int { /* RULE FOR INT KEYWORD */
 "}" { /* RULE FOR RIGHT BRACE */
 	// Increment column by 1
 	++yycolumn;
-	printf("%d\t%d\tRBRACEnum\n", yyline, yycolumn);
+//	printf("%d\t%d\tRBRACEnum\n", yyline, yycolumn);
 	// Return token value
 	return RBRACEnum;
 }
@@ -513,7 +513,7 @@ int { /* RULE FOR INT KEYWORD */
 }
 
 <<EOF>> { /* RULE FOR END OF FILE */
-	printf("%d\t%d\tEOFnum\n\n", yyline, yycolumn);
+//	printf("%d\t%d\tEOFnum\n\n", yyline, yycolumn);
 	// Return token value
 	return EOFnum;
 }
